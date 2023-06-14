@@ -4,7 +4,7 @@ import 'package:weather_app_using_rest_api/services/weather_conditions_api.dart'
 import 'package:weather_app_using_rest_api/theme/colors.dart';
 import 'package:weather_app_using_rest_api/widgets/current_weather_data.dart';
 import 'package:weather_app_using_rest_api/widgets/fore_cast_tile.dart';
-import '../models/forecast_5day_model.dart';
+import '../models/forecast_model.dart';
 import '../models/weather_model.dart';
 import '../services/forecast_api.dart';
 
@@ -148,8 +148,8 @@ class _WeatherConditionsState extends State<WeatherConditions> {
                                 date: forecast.date.toString(),
                                 humidity: forecast.humidity.toString(),
                                 imageUrl: forecast.icon.toString(),
-                                tempMax: forecast.tempMax.toString(),
-                                tempMin: forecast.tempMin.toString(),
+                                tempMax: forecast.tempMax!.toStringAsFixed(2),
+                                tempMin: forecast.tempMin!.toStringAsFixed(2),
                               );
                             },
                           ),
@@ -158,10 +158,13 @@ class _WeatherConditionsState extends State<WeatherConditions> {
                       if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
                       }
-                      return const Center(
-                          child: CircularProgressIndicator(
-                        color: Colors.transparent,
-                      ));
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                            child: CircularProgressIndicator(
+                          color: Colors.transparent,
+                        ));
+                      }
+                      return const Text('No data fetched');
                     },
                   ),
                 ],

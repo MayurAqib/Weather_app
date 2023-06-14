@@ -39,7 +39,7 @@ class ForeCastTile extends StatelessWidget {
                   ),
                 ],
               ),
-              Text('$tempMax\u2103  $tempMin\u2103')
+              Text('$tempMax°C   $tempMin°C ')
             ],
           ),
           Text(
