@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app_using_rest_api/theme/colors.dart';
 
 class ForeCastTile extends StatelessWidget {
   const ForeCastTile(
@@ -22,7 +23,7 @@ class ForeCastTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       decoration: BoxDecoration(
-          color: Colors.grey, borderRadius: BorderRadius.circular(8)),
+          color: designColor, borderRadius: BorderRadius.circular(8)),
       child: Column(
         children: [
           Row(
