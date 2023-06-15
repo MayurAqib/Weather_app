@@ -8,16 +8,15 @@ import '../models/forecast_model.dart';
 class ForeCastApi {
   Future<List<ForeCastModel>> fetchForeCastData(String location) async {
     try {
-      String apiUrl =
+      String forecastUrl =
           'https://api.openweathermap.org/data/2.5/forecast?q=$location&appid=369f10c5086a1d545636fbf26dbe7f38';
-      var response = await http.get(Uri.parse(apiUrl));
+      var response = await http.get(Uri.parse(forecastUrl));
 
       if (response.statusCode == 200) {
         var jsonData = json.decode(response.body);
         var cityData = jsonData['city']; // Extract the 'city' field
 
         List<ForeCastModel> foreCastDataListApi = [];
-
         Map<DateTime, ForeCastModel> dailyData = {};
 
         for (var item in jsonData['list']) {
@@ -61,7 +60,7 @@ class ForeCastApi {
         firstDayData.tempMin = minTemp;
         firstDayData.tempMax = maxTemp;
         var sortedKeys = dailyData.keys.toList()..sort();
-        var sortedData = {for (var k in sortedKeys) k: dailyData[k]};
+        var sortedData = {for (var t in sortedKeys) t: dailyData[t]};
 
         sortedData.forEach((_, forecast) {
           foreCastDataListApi.add(forecast!);
