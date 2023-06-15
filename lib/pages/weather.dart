@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:weather_app_using_rest_api/services/weather_conditions_api.dart';
 import 'package:weather_app_using_rest_api/theme/colors.dart';
 import 'package:weather_app_using_rest_api/widgets/current_weather_data.dart';
@@ -116,6 +117,8 @@ class _WeatherConditionsState extends State<WeatherConditions> {
                                 cityName = searchController.text.trim();
                               });
                               getWeatherData();
+                              SystemChannels.textInput
+                                  .invokeMethod('TextInput.hide');
                             },
                             pressure: weatherData?.pressure,
                             temp: weatherData?.temp,
