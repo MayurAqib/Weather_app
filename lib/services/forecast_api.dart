@@ -68,6 +68,12 @@ class ForeCastApi {
 
         return foreCastDataListApi;
       }
+      if (response.statusCode >= 300 && response.statusCode < 400) {
+        throw Exception('client error');
+      }
+      if (response.statusCode >= 400 && response.statusCode < 500) {
+        throw Exception('server error');
+      }
     } catch (e) {
       debugPrint('forecast api error: $e');
     }

@@ -18,18 +18,23 @@ class _WeatherConditionsState extends State<WeatherConditions> {
   final searchController = TextEditingController(); //! Controller
 
   WeatherModel? weatherData;
+
   List<ForeCastModel> foreCastDataList = [];
+
   String? cityName = 'Mohali';
 
-  WeatherConditionApi client = WeatherConditionApi();
+  WeatherConditionApi currentWeatherClient = WeatherConditionApi();
+
+  ForeCastApi foreCastWeatherClient = ForeCastApi();
+
   final StreamController<WeatherModel?> _streamController =
       StreamController<WeatherModel?>();
 
   //! fetching current weather data from api
   void getWeatherData() async {
     try {
-      WeatherModel? weatherData =
-          (await client.getCurrentWeather(cityName!)) as WeatherModel?;
+      WeatherModel? weatherData = (await currentWeatherClient
+          .getCurrentWeather(cityName!)) as WeatherModel?;
       _streamController.add(weatherData);
     } catch (e) {
       debugPrint(e.toString());
@@ -53,13 +58,12 @@ class _WeatherConditionsState extends State<WeatherConditions> {
     }
   }
 
-  ForeCastApi weatherAPI = ForeCastApi();
   //! fetching forecast data function
   Stream<List<ForeCastModel>> getForeCastData(String cityName) async* {
     try {
       while (true) {
         List<ForeCastModel> forecastData =
-            await weatherAPI.fetchForeCastData(cityName);
+            await foreCastWeatherClient.fetchForeCastData(cityName);
         yield forecastData;
         await Future.delayed(
             const Duration(minutes: 15)); // Update every 15 minutes
@@ -94,6 +98,7 @@ class _WeatherConditionsState extends State<WeatherConditions> {
                   const SizedBox(
                     height: 20,
                   ),
+
                   StreamBuilder<WeatherModel?>(
                     stream: _streamController.stream,
                     builder: (context, snapshot) {
